@@ -442,6 +442,9 @@ public class ShopManager {
 						p.sendMessage(MsgUtil.getMessage("shop-has-changed"));
 						return;
 					}
+					if (p.getUniqueId().equals(shop.getOwner())) {
+						p.sendMessage(MsgUtil.getMessage("self-buy-or-sell"));
+					}
 					if (shop.isSelling()) {
 						int stock = shop.getRemainingStock();
 						if (stock < amount) {
@@ -462,11 +465,8 @@ public class ShopManager {
 							p.sendMessage(MsgUtil.getMessage("not-enough-space", "" + pSpace));
 							return;
 						}
-						ShopPurchaseEvent e = new ShopPurchaseEvent(shop, p, amount);
-						Bukkit.getPluginManager().callEvent(e);
-						if (e.isCancelled())
-							return; // Cancelled
 						// Money handling
+						ShopPurchaseEvent e = new ShopPurchaseEvent(shop, p, amount);
 						if (!p.getUniqueId().equals(shop.getOwner())) {
 							// Check their balance. Works with *most* economy
 							// plugins*
@@ -481,7 +481,10 @@ public class ShopManager {
 							if (shop.getOwner().equals(p.getUniqueId()) || Permissions.hasPermission(Bukkit.getOfflinePlayer(shop.getOwner()), "quickshop.taxexemption")) {
 								tax = 0;
 							}
-							
+
+							Bukkit.getPluginManager().callEvent(e);
+							if (e.isCancelled())
+								return; // Cancelled
 							double total = amount * shop.getPrice();
 							if (!plugin.getEcon().withdraw(p.getUniqueId(), total)) {
 								p.sendMessage(MsgUtil.getMessage("you-cant-afford-to-buy", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(p.getName()))));
@@ -505,6 +508,10 @@ public class ShopManager {
 									msg += "\n" + MsgUtil.getMessage("shop-out-of-stock", "" + shop.getLocation().getBlockX(), "" + shop.getLocation().getBlockY(), "" + shop.getLocation().getBlockZ(), shop.getDataName());
 								MsgUtil.send(shop.getOwner(), msg);
 							}
+						}else {
+							Bukkit.getPluginManager().callEvent(e);
+							if (e.isCancelled())
+								return; // Cancelled
 						}
 						// Transfers the item from A to B
 						shop.sell(p, amount);
@@ -532,9 +539,6 @@ public class ShopManager {
 							return;
 						}
 						ShopPurchaseEvent e = new ShopPurchaseEvent(shop, p, amount);
-						Bukkit.getPluginManager().callEvent(e);
-						if (e.isCancelled())
-							return; // Cancelled
 						// Money handling
 						if (!p.getUniqueId().equals(shop.getOwner())) {
 							// Don't tax them if they're purchasing from
@@ -558,6 +562,9 @@ public class ShopManager {
 									plugin.getEcon().deposit(plugin.getConfig().getString("tax-account"), total * tax);
 								}
 							}
+							Bukkit.getPluginManager().callEvent(e);
+							if (e.isCancelled())
+								return; // Cancelled
 							// Give them the money after we know we succeeded
 							plugin.getEcon().deposit(p.getName(), total * (1 - tax));
 							// Notify the owner of the purchase.
@@ -565,6 +572,10 @@ public class ShopManager {
 							if (space == amount)
 								msg += "\n" + MsgUtil.getMessage("shop-out-of-space", "" + shop.getLocation().getBlockX(), "" + shop.getLocation().getBlockY(), "" + shop.getLocation().getBlockZ());
 							MsgUtil.send(shop.getOwner(), msg);
+						}else {
+							Bukkit.getPluginManager().callEvent(e);
+							if (e.isCancelled())
+								return; // Cancelled
 						}
 						shop.buy(p, amount);
 						MsgUtil.sendSellSuccess(p, shop, amount);

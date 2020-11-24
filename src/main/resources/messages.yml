@@ -42,6 +42,7 @@ refill-success: "&aRefill success"
 empty-success: "&aEmpty success"
 admin-shop: "AdminShop"
 unknown-owner: "Unknown"
+self-buy-or-sell: "§cVocê não pode comprar ou vender para sua loja!"
 
 menu:
     successful-purchase: "&aSuccessfully Purchased:"
