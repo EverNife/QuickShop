@@ -30,6 +30,7 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.material.Sign;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
+import org.maxgamer.quickshop.Integration.EverNifeCoreIntegration;
 import org.maxgamer.quickshop.QuickShop;
 import org.maxgamer.quickshop.Shop.Shop;
 
@@ -382,16 +383,25 @@ public class Util {
 	}
 
 	public static String serialize(ItemStack iStack) {
-		YamlConfiguration cfg = new YamlConfiguration();
-		cfg.set("item", iStack);
-		return cfg.saveToString();
+		if (EverNifeCoreIntegration.isPresent()){
+			return EverNifeCoreIntegration.getMinecraftIdentifier(iStack);
+		}else {
+			YamlConfiguration cfg = new YamlConfiguration();
+			cfg.set("item", iStack);
+			return cfg.saveToString();
+		}
 	}
 
 	public static ItemStack deserialize(String config) throws InvalidConfigurationException {
-		YamlConfiguration cfg = new YamlConfiguration();
-		cfg.loadFromString(config);
-		ItemStack stack = cfg.getItemStack("item");
-		return stack;
+		if (EverNifeCoreIntegration.isPresent()){
+			return EverNifeCoreIntegration.fromMinecraftIdentifier(config);
+		}else {
+			YamlConfiguration cfg = new YamlConfiguration();
+			cfg.loadFromString(config);
+			ItemStack stack = cfg.getItemStack("item");
+			return stack;
+		}
+
 	}
 
 	/**
