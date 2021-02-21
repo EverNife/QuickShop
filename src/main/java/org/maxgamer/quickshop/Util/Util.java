@@ -30,7 +30,6 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.material.Sign;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
-import org.maxgamer.quickshop.Integration.EverNifeCoreIntegration;
 import org.maxgamer.quickshop.QuickShop;
 import org.maxgamer.quickshop.Shop.Shop;
 
@@ -383,25 +382,16 @@ public class Util {
 	}
 
 	public static String serialize(ItemStack iStack) {
-		if (EverNifeCoreIntegration.isPresent()){
-			return EverNifeCoreIntegration.getMinecraftIdentifier(iStack);
-		}else {
-			YamlConfiguration cfg = new YamlConfiguration();
-			cfg.set("item", iStack);
-			return cfg.saveToString();
-		}
+		YamlConfiguration cfg = new YamlConfiguration();
+		cfg.set("item", iStack);
+		return cfg.saveToString();
 	}
 
 	public static ItemStack deserialize(String config) throws InvalidConfigurationException {
-		if (EverNifeCoreIntegration.isPresent()){
-			return EverNifeCoreIntegration.fromMinecraftIdentifier(config);
-		}else {
-			YamlConfiguration cfg = new YamlConfiguration();
-			cfg.loadFromString(config);
-			ItemStack stack = cfg.getItemStack("item");
-			return stack;
-		}
-
+		YamlConfiguration cfg = new YamlConfiguration();
+		cfg.loadFromString(config);
+		ItemStack stack = cfg.getItemStack("item");
+		return stack;
 	}
 
 	/**
@@ -966,7 +956,7 @@ public class Util {
 	/**
 	 * Fetches the block which the given sign is attached to
 	 * 
-	 * @param sign
+	 * @param b
 	 *            The sign which is attached
 	 * @return The block the sign is attached to
 	 */

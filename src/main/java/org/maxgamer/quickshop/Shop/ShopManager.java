@@ -444,6 +444,7 @@ public class ShopManager {
 					}
 					if (p.getUniqueId().equals(shop.getOwner())) {
 						p.sendMessage(MsgUtil.getMessage("self-buy-or-sell"));
+						return;
 					}
 					if (shop.isSelling()) {
 						int stock = shop.getRemainingStock();
