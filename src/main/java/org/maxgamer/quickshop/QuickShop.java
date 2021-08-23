@@ -62,6 +62,7 @@ import org.maxgamer.quickshop.Util.Permissions;
 import org.maxgamer.quickshop.Util.Util;
 import org.maxgamer.quickshop.Watcher.ItemWatcher;
 import org.maxgamer.quickshop.Watcher.LogWatcher;
+import br.com.finalcraft.quickshop.integration.fakeitem.FakeItemManager;
 
 
 @SuppressWarnings("deprecation")
@@ -97,6 +98,8 @@ public class QuickShop extends JavaPlugin {
 	public boolean sneakTrade;
 	/** Whether we should use display items or not */
 	public boolean display = true;
+	/** Whether we should use EverForgeLib Display instead of Vanilla */
+	public boolean irondome_display = true;
 	/**
 	 * Whether we players are charged a fee to change the price on their shop
 	 * (To help deter endless undercutting
@@ -160,6 +163,8 @@ public class QuickShop extends JavaPlugin {
 			getLogger().info("Starting item scheduler");
 			ItemWatcher itemWatcher = new ItemWatcher(this);
 			itemWatcherTask = Bukkit.getScheduler().runTaskTimer(this, itemWatcher, 600, 600);
+		}else if (this.irondome_display){
+			FakeItemManager.initialize();
 		}
 		if (this.getConfig().getBoolean("log-actions")) {
 			// Logger Handler
@@ -448,6 +453,13 @@ public class QuickShop extends JavaPlugin {
 		super.reloadConfig();
 		// Load quick variables
 		this.display = this.getConfig().getBoolean("shop.display-items");
+		try {
+			Class.forName("br.com.finalcraft.irondome.common.network.api.FakeItemRenderPacket");
+			this.irondome_display = true;
+			this.display = false;
+		}catch (Exception ignored){
+
+		}
 		this.sneak = this.getConfig().getBoolean("shop.sneak-only");
 		this.sneakCreate = this.getConfig().getBoolean("shop.sneak-to-create");
 		this.sneakTrade = this.getConfig().getBoolean("shop.sneak-to-trade");

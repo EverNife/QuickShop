@@ -23,6 +23,7 @@ import org.maxgamer.quickshop.Shop.Shop;
 import org.maxgamer.quickshop.Shop.ShopAction;
 import org.maxgamer.quickshop.Util.MsgUtil;
 import org.maxgamer.quickshop.Util.Util;
+import br.com.finalcraft.quickshop.integration.fakeitem.FakeItemManager;
 
 public class BlockListener implements Listener {
 	private QuickShop plugin;
@@ -72,6 +73,9 @@ public class BlockListener implements Listener {
 			Info action = plugin.getShopManager().getActions().get(p.getName());
 			if (action != null) {
 				action.setAction(ShopAction.CANCELLED);
+			}
+			if (QuickShop.instance.irondome_display){
+				FakeItemManager.sendFakeItemsToThemAll(shop, true);
 			}
 			shop.delete();
 			p.sendMessage(MsgUtil.getMessage("success-removed-shop"));
