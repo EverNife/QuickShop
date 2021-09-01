@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import br.com.finalcraft.evernifecore.fcitemstack.FCItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -118,7 +119,7 @@ public class QuickShop extends JavaPlugin {
 	/** Whether debug info should be shown in the console */
 	public static boolean debug = false;
 	
-	private Map<Material,List<CustomItemName>> customItemsName = new HashMap<Material,List<CustomItemName>>();
+	private Map<String,CustomItemName> customItemsName = new HashMap<>();
 	
 	private int displayItemCheckTicks;
 
@@ -177,6 +178,7 @@ public class QuickShop extends JavaPlugin {
 		}
 		
 		if (this.getConfig().isSet("custom-items-name")) {
+			customItemsName.clear();
 			for (String s : this.getConfig().getStringList("custom-items-name")) {
 				try {
 					String[] mainVal = s.split("[;]");
@@ -204,14 +206,8 @@ public class QuickShop extends JavaPlugin {
 					if (mainVal[1].length()>16) {
 						Bukkit.getLogger().warning("Custom item name definition {"+s+"} sign name is longer than 16 characters. Only the first 16 characters will be shown.");
 					}
-					
-					List<CustomItemName> cinList = customItemsName.get(material);
-					if (cinList==null) {
-						cinList = new ArrayList<CustomItemName>();
-						customItemsName.put(material, cinList);
-					}
-					
-					cinList.add(new CustomItemName(is, mainVal[1], mainVal[2]));
+
+					customItemsName.put(material.name() + ":" + is.getDurability(), new CustomItemName(mainVal[1], mainVal[2]));
 				} catch (Exception e) {
 					Bukkit.getLogger().warning("Invalid custom item name definition {"+s+"} Error: "+e.getMessage());
 				}
@@ -564,21 +560,19 @@ public class QuickShop extends JavaPlugin {
 		return this.shopManager;
 	}
 
-	public Map<Material, List<CustomItemName>> getCustomItemsNameMap() {
-		return customItemsName;
-	}
-	
 	public CustomItemName getCustomItemNames(ItemStack is) {
-		List<CustomItemName> list = customItemsName.get(is.getType());
-		if (list==null) {
-			return null;
+		final String identifier = is.getType().name() + ":" + is.getDurability();
+		CustomItemName customItemName = customItemsName.get(identifier);
+		if (customItemName == null) {
+			FCItemStack fcItemStack = new FCItemStack(is);
+			String localizedName = fcItemStack.getItemLocalizedName();
+			localizedName = fcItemStack.getItemLocalizedName(); //twice because this is minecraft! Its buggy!
+			String trimmedName = localizedName.substring(0, localizedName.length() < 16 ? localizedName.length() : 16);
+
+			customItemName = new CustomItemName(trimmedName, localizedName);
+			customItemsName.put(identifier, customItemName);
+			if (debug) System.out.println("Creating CustomName for (" + identifier + " ) == "  + localizedName);
 		}
-		for (CustomItemName cin : list) {
-			if (cin.matches(is)) {
-				return cin;
-			}
-		}
-		
-		return null;
+		return customItemName;
 	}
 }
