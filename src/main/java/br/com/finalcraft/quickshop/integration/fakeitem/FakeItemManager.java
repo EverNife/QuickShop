@@ -1,15 +1,15 @@
 package br.com.finalcraft.quickshop.integration.fakeitem;
 
 import br.com.finalcraft.evernifecore.nms.util.NMSUtils;
-import br.com.finalcraft.evernifecore.util.FCBukkitUtil;
+import br.com.finalcraft.evernifecore.util.FCScheduller;
 import br.com.finalcraft.irondome.common.network.api.FakeItemRenderPacket;
 import br.com.finalcraft.irondome.common.network.api.NetworkAPI;
+import br.com.finalcraft.quickshop.integration.listener.QuickShopRenderListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.maxgamer.quickshop.QuickShop;
 import org.maxgamer.quickshop.Shop.Shop;
-import br.com.finalcraft.quickshop.integration.listener.QuickShopRenderListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +46,7 @@ public class FakeItemManager {
 	}
 
 	public static void sendFakeItemsToThemAll(final Shop shop, boolean wasDeleted){
-		FCBukkitUtil.runAssync(() -> {
+		FCScheduller.runAssync(() -> {
 			Location shopLocation = shop.getLocation();
 			ItemStack itemStack = shop.getItem();
 			Object mcItemStack = wasDeleted ? null : NMSUtils.get().asMinecraftItemStack(itemStack);
@@ -68,7 +68,7 @@ public class FakeItemManager {
 	}
 
 	public static void sendFakeItemsToThemAll(boolean reload){
-		FCBukkitUtil.runAssync(() -> {
+		FCScheduller.runAssync(() -> {
 
 			if(QuickShop.debug)System.out.println("Starting Send of FakeItems to players");
 

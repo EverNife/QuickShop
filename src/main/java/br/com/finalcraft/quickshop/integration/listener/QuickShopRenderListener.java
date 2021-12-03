@@ -1,10 +1,10 @@
 package br.com.finalcraft.quickshop.integration.listener;
 
+import br.com.finalcraft.quickshop.integration.fakeitem.FakeItemManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.maxgamer.quickshop.Shop.ShopCreateEvent;
-import br.com.finalcraft.quickshop.integration.fakeitem.FakeItemManager;
 
 public class QuickShopRenderListener implements Listener{
 
