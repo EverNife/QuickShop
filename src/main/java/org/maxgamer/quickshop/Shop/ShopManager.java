@@ -31,6 +31,7 @@ public class ShopManager {
 	private QuickShop plugin;
 	private HashMap<UUID, Info> actions = new HashMap<UUID, Info>();
 	private HashMap<String, HashMap<ShopChunk, HashMap<Location, Shop>>> shops = new HashMap<String, HashMap<ShopChunk, HashMap<Location, Shop>>>();
+	private String taxAccount = QuickShop.instance.getConfig().getString("tax-account");
 	final private static ItemStack AIR = new ItemStack(Material.AIR);
 
 	public ShopManager(QuickShop plugin) {
@@ -351,7 +352,9 @@ public class ShopManager {
 								shop.onUnload();
 								return;
 							}
-							plugin.getEcon().deposit(plugin.getConfig().getString("tax-account"), tax);
+							if (!taxAccount.isEmpty()){
+								plugin.getEcon().deposit(taxAccount, tax);
+							}
 						}
 						/* The shop has hereforth been successfully created */
 						createShop(shop);
@@ -494,7 +497,9 @@ public class ShopManager {
 							if (!shop.isUnlimited() || plugin.getConfig().getBoolean("shop.pay-unlimited-shop-owners")) {
 								plugin.getEcon().deposit(shop.getOwner(), total * (1 - tax));
 								if (tax != 0) {
-									plugin.getEcon().deposit(plugin.getConfig().getString("tax-account"), total * tax);
+									if (!taxAccount.isEmpty()){
+										plugin.getEcon().deposit(taxAccount, total * tax);
+									}
 								}
 							}
 							// Notify the shop owner
@@ -560,7 +565,9 @@ public class ShopManager {
 									return;
 								}
 								if (tax != 0) {
-									plugin.getEcon().deposit(plugin.getConfig().getString("tax-account"), total * tax);
+									if (!taxAccount.isEmpty()){
+										plugin.getEcon().deposit(taxAccount, total * tax);
+									}
 								}
 							}
 							Bukkit.getPluginManager().callEvent(e);
