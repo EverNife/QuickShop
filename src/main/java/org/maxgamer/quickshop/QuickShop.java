@@ -18,6 +18,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import br.com.finalcraft.evernifecore.fcitemstack.FCItemStack;
+import br.com.finalcraft.evernifecore.util.FCBukkitUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -100,7 +101,7 @@ public class QuickShop extends JavaPlugin {
 	/** Whether we should use display items or not */
 	public boolean display = true;
 	/** Whether we should use EverForgeLib Display instead of Vanilla */
-	public boolean irondome_display = true;
+	public boolean irondome_display = false;
 	/**
 	 * Whether we players are charged a fee to change the price on their shop
 	 * (To help deter endless undercutting
@@ -449,12 +450,9 @@ public class QuickShop extends JavaPlugin {
 		super.reloadConfig();
 		// Load quick variables
 		this.display = this.getConfig().getBoolean("shop.display-items");
-		try {
-			Class.forName("br.com.finalcraft.irondome.common.network.api.FakeItemRenderPacket");
+		if (FCBukkitUtil.isClassLoaded("br.com.finalcraft.irondome.common.network.api.FakeItemRenderPacket")){
 			this.irondome_display = true;
 			this.display = false;
-		}catch (Exception ignored){
-
 		}
 		this.sneak = this.getConfig().getBoolean("shop.sneak-only");
 		this.sneakCreate = this.getConfig().getBoolean("shop.sneak-to-create");

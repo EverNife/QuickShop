@@ -20,7 +20,12 @@ public class FakeItemManager {
 
 	private static Thread thread;
 	public static void initialize(){
-		if (thread != null) thread.interrupt();
+		if (thread != null) {
+			thread.interrupt();
+		} else {
+			//Only register the listener on the First call of initialize()
+			Bukkit.getServer().getPluginManager().registerEvents(new QuickShopRenderListener(), QuickShop.instance);
+		}
 		thread = new Thread(){
 			@Override
 			public void run() {
@@ -37,8 +42,6 @@ public class FakeItemManager {
 		};
 		thread.setName("FakeItemManager");
 		thread.start();
-
-		Bukkit.getServer().getPluginManager().registerEvents(new QuickShopRenderListener(), QuickShop.instance);
 	}
 
 	private static boolean isNearEnough(Location origin, Location target){
