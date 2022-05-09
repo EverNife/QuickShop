@@ -1,13 +1,13 @@
 package org.maxgamer.quickshop.Shop;
 
-import java.util.List;
-import java.util.UUID;
-
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
+import java.util.UUID;
 
 public abstract interface Shop {
 	public abstract Shop clone();

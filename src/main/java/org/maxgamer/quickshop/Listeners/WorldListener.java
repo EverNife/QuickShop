@@ -1,8 +1,5 @@
 package org.maxgamer.quickshop.Listeners;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -13,6 +10,9 @@ import org.bukkit.event.world.WorldUnloadEvent;
 import org.maxgamer.quickshop.QuickShop;
 import org.maxgamer.quickshop.Shop.Shop;
 import org.maxgamer.quickshop.Shop.ShopChunk;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class WorldListener implements Listener {
 	QuickShop plugin;

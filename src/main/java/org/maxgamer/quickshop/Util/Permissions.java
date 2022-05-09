@@ -1,10 +1,9 @@
 package org.maxgamer.quickshop.Util;
 
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.RegisteredServiceProvider;
-
-import net.milkbowl.vault.permission.Permission;
 
 public class Permissions {
 	private Permissions() {}

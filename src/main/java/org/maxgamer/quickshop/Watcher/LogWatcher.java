@@ -1,14 +1,10 @@
 package org.maxgamer.quickshop.Watcher;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.ArrayList;
-
 import org.bukkit.scheduler.BukkitTask;
 import org.maxgamer.quickshop.QuickShop;
+
+import java.io.*;
+import java.util.ArrayList;
 
 public class LogWatcher implements Runnable {
 	private PrintStream ps;

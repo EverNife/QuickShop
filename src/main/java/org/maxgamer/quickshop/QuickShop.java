@@ -1,30 +1,9 @@
 package org.maxgamer.quickshop;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
-import br.com.finalcraft.evernifecore.fcitemstack.FCItemStack;
 import br.com.finalcraft.evernifecore.util.FCBukkitUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
+import br.com.finalcraft.evernifecore.util.FCItemUtils;
+import br.com.finalcraft.quickshop.integration.fakeitem.FakeItemManager;
+import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
@@ -36,35 +15,25 @@ import org.bukkit.potion.PotionType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.maxgamer.quickshop.Command.QS;
-import org.maxgamer.quickshop.Database.Database;
+import org.maxgamer.quickshop.Database.*;
 import org.maxgamer.quickshop.Database.Database.ConnectionException;
-import org.maxgamer.quickshop.Database.DatabaseCore;
-import org.maxgamer.quickshop.Database.DatabaseHelper;
-import org.maxgamer.quickshop.Database.MySQLCore;
-import org.maxgamer.quickshop.Database.SQLiteCore;
 import org.maxgamer.quickshop.Economy.Economy;
 import org.maxgamer.quickshop.Economy.EconomyCore;
 import org.maxgamer.quickshop.Economy.Economy_Vault;
-import org.maxgamer.quickshop.Listeners.BlockListener;
-import org.maxgamer.quickshop.Listeners.ChatListener;
-import org.maxgamer.quickshop.Listeners.ChunkListener;
-import org.maxgamer.quickshop.Listeners.DisplayProtectionListener;
-import org.maxgamer.quickshop.Listeners.LockListener;
-import org.maxgamer.quickshop.Listeners.PlayerListener;
-import org.maxgamer.quickshop.Listeners.WorldListener;
+import org.maxgamer.quickshop.Listeners.*;
 import org.maxgamer.quickshop.Shop.ContainerShop;
 import org.maxgamer.quickshop.Shop.Shop;
 import org.maxgamer.quickshop.Shop.ShopManager;
 import org.maxgamer.quickshop.Shop.ShopType;
-import org.maxgamer.quickshop.Util.CustomItemName;
-import org.maxgamer.quickshop.Util.CustomPotionsName;
-import org.maxgamer.quickshop.Util.MsgUtil;
-import org.maxgamer.quickshop.Util.NMS;
-import org.maxgamer.quickshop.Util.Permissions;
-import org.maxgamer.quickshop.Util.Util;
+import org.maxgamer.quickshop.Util.*;
 import org.maxgamer.quickshop.Watcher.ItemWatcher;
 import org.maxgamer.quickshop.Watcher.LogWatcher;
-import br.com.finalcraft.quickshop.integration.fakeitem.FakeItemManager;
+
+import java.io.File;
+import java.sql.*;
+import java.util.Date;
+import java.util.*;
+import java.util.Map.Entry;
 
 
 @SuppressWarnings("deprecation")
@@ -562,9 +531,8 @@ public class QuickShop extends JavaPlugin {
 		final String identifier = is.getType().name() + ":" + is.getDurability();
 		CustomItemName customItemName = customItemsName.get(identifier);
 		if (customItemName == null) {
-			FCItemStack fcItemStack = new FCItemStack(is);
-			String localizedName = fcItemStack.getItemLocalizedName();
-			localizedName = fcItemStack.getItemLocalizedName(); //twice because this is minecraft! Its buggy!
+			String localizedName = FCItemUtils.getLocalizedName(is);
+			localizedName = FCItemUtils.getLocalizedName(is); //twice because this is minecraft! Its buggy!
 			String trimmedName = localizedName.substring(0, localizedName.length() < 16 ? localizedName.length() : 16);
 
 			customItemName = new CustomItemName(trimmedName, localizedName);

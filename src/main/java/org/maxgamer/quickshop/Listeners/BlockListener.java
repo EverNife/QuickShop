@@ -1,5 +1,6 @@
 package org.maxgamer.quickshop.Listeners;
 
+import br.com.finalcraft.quickshop.integration.fakeitem.FakeItemManager;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -23,7 +24,6 @@ import org.maxgamer.quickshop.Shop.Shop;
 import org.maxgamer.quickshop.Shop.ShopAction;
 import org.maxgamer.quickshop.Util.MsgUtil;
 import org.maxgamer.quickshop.Util.Util;
-import br.com.finalcraft.quickshop.integration.fakeitem.FakeItemManager;
 
 public class BlockListener implements Listener {
 	private QuickShop plugin;

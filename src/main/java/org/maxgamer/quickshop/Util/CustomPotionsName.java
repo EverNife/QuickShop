@@ -1,12 +1,12 @@
 package org.maxgamer.quickshop.Util;
 
-import java.util.Collection;
-import java.util.Map;
-
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
+
+import java.util.Collection;
+import java.util.Map;
 
 public class CustomPotionsName {
 	private static Map<PotionType,Names> potionTypes;

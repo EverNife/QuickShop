@@ -1,12 +1,11 @@
 package org.maxgamer.quickshop.Economy;
 
-import java.util.UUID;
-
 import net.milkbowl.vault.economy.Economy;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.RegisteredServiceProvider;
+
+import java.util.UUID;
 
 public class Economy_Vault implements EconomyCore {
 	private Economy vault;

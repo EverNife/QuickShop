@@ -1,18 +1,5 @@
 package org.maxgamer.quickshop.Util;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInput;
-import java.io.DataInputStream;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -26,6 +13,13 @@ import org.bukkit.potion.PotionType;
 import org.maxgamer.quickshop.QuickShop;
 import org.maxgamer.quickshop.Util.CustomPotionsName.GenericPotionData;
 import org.maxgamer.quickshop.Util.CustomPotionsName.GenericPotionData.Category;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 @SuppressWarnings("deprecation")
 public class NMS {
