@@ -1,7 +1,7 @@
 package org.maxgamer.quickshop;
 
-import br.com.finalcraft.evernifecore.util.FCBukkitUtil;
 import br.com.finalcraft.evernifecore.util.FCItemUtils;
+import br.com.finalcraft.evernifecore.util.FCReflectionUtil;
 import br.com.finalcraft.quickshop.integration.fakeitem.FakeItemManager;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
@@ -419,7 +419,7 @@ public class QuickShop extends JavaPlugin {
 		super.reloadConfig();
 		// Load quick variables
 		this.display = this.getConfig().getBoolean("shop.display-items");
-		if (FCBukkitUtil.isClassLoaded("br.com.finalcraft.irondome.common.network.api.FakeItemRenderPacket")){
+		if (FCReflectionUtil.isClassLoaded("br.com.finalcraft.irondome.common.network.api.FakeItemRenderPacket")){
 			this.irondome_display = true;
 			this.display = false;
 		}
