@@ -3,8 +3,8 @@
 #Tax amount (decimal) - Eg, P1 buys $50 worth of stuff from P2.  Therefore, P1 loses $50, P2 gains $(1-0.05)*50, and tax-account gains $(0.05)*50.
 tax: 0.05
 
-#The fake player who money from taxing people goes to
-tax-account: tax
+#The fake player, if your economy plugin has support, who money from taxing people goes to
+tax-account: ''
 
 #Whether or not to show taxes paid when selling to a shop
 show-tax: false

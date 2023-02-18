@@ -347,9 +347,7 @@ public class ShopManager {
 								shop.onUnload();
 								return;
 							}
-							if (!taxAccount.isEmpty()){
-								plugin.getEcon().deposit(taxAccount, tax);
-							}
+							payTaxAccount(tax);
 						}
 						/* The shop has hereforth been successfully created */
 						createShop(shop);
@@ -492,9 +490,7 @@ public class ShopManager {
 							if (!shop.isUnlimited() || plugin.getConfig().getBoolean("shop.pay-unlimited-shop-owners")) {
 								plugin.getEcon().deposit(shop.getOwner(), total * (1 - tax));
 								if (tax != 0) {
-									if (!taxAccount.isEmpty()){
-										plugin.getEcon().deposit(taxAccount, total * tax);
-									}
+									payTaxAccount(total * tax);
 								}
 							}
 							// Notify the shop owner
@@ -560,9 +556,7 @@ public class ShopManager {
 									return;
 								}
 								if (tax != 0) {
-									if (!taxAccount.isEmpty()){
-										plugin.getEcon().deposit(taxAccount, total * tax);
-									}
+									payTaxAccount(total * tax);
 								}
 							}
 							Bukkit.getPluginManager().callEvent(e);
@@ -592,6 +586,22 @@ public class ShopManager {
 				}
 			}
 		});
+	}
+
+	private void payTaxAccount(double amount){
+		if (taxAccount.isEmpty()){
+			return; //No tax account to pay anything!
+		}
+		try {
+			plugin.getEcon().deposit(taxAccount, amount);
+		}catch (Exception taxFailed) {
+			String message = String.format("Failed to pay tax to account [%s], please check your config.yml and make sure the 'tax-account' exists! Or that your EconomyPlugin support fake accounts!", taxAccount);
+			plugin.getLogger().warning(message);
+			taxFailed.printStackTrace();
+
+			taxAccount = "";
+			QuickShop.instance.getConfig().set("tax-account", "");
+		}
 	}
 
 	/**
