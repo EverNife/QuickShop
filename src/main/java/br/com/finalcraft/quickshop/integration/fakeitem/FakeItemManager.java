@@ -49,7 +49,7 @@ public class FakeItemManager {
 	}
 
 	public static void sendFakeItemsToThemAll(final Shop shop, boolean wasDeleted){
-		FCScheduler.runAssync(() -> {
+		FCScheduler.runAsync(() -> {
 			Location shopLocation = shop.getLocation();
 			ItemStack itemStack = shop.getItem();
 			Object mcItemStack = wasDeleted ? null : NMSUtils.get().asMinecraftItemStack(itemStack);
@@ -71,7 +71,7 @@ public class FakeItemManager {
 	}
 
 	public static void sendFakeItemsToThemAll(boolean reload){
-		FCScheduler.runAssync(() -> {
+		FCScheduler.runAsync(() -> {
 
 			if(QuickShop.debug)System.out.println("Starting Send of FakeItems to players");
 
